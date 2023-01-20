@@ -9,26 +9,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Validations {
-
     public void existencias(List<Productos> listaDeProductosGuardados,
                             List<ProductosCopia> listaDeProductosAComprar) {
-
         listaDeProductosAComprar.forEach(productosCopia -> listaDeProductosGuardados.stream()
                 .filter(productoGuardado -> productoGuardado.getName().equals(productosCopia.getName()))
                 .findFirst().orElseThrow(
-                        () -> new RuntimeException("No existe el producto " + productosCopia.getName())));
-    }
-
-
+                        () -> new RuntimeException("No existe el producto " + productosCopia.getName())));    }
     public void stockMinimo(List<Productos> listDeProductosGuardados) {
         listDeProductosGuardados.forEach(producto -> {
             if (producto.getInInventory() < producto.getMin()) {
                 throw new RuntimeException(
-                        "El producto " + producto.getName() + " no tiene el stock minimo para su venta");
-            }
-        });
+                        "El producto " + producto.getName() + " no tiene el stock minimo para su venta");          }        });
     }
-
     public void rangoDeCantidad(List<Productos> listaDeProductosGuardados,
                                 List<ProductosCopia> listaDeProductosAComprar) {
         listaDeProductosAComprar.forEach(productosCopia -> listaDeProductosGuardados.stream()

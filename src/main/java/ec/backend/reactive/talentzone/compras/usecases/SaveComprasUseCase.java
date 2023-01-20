@@ -26,17 +26,13 @@ public class SaveComprasUseCase implements SaveCompra {
     private final IComprasRepository iComprasRepository;
     private final IProductosRepository productRepository;
     private final ComprasMapper comprasMapper;
-
     private final Validations validations;
 
 
     @Override
-    //monolist
-
+    //Mono<List<Productos>> aca abajo cambie
     public Mono<ComprasDTO> applyCompra(ComprasDTO comprasDTO) {
-
         validaciones(comprasDTO);
-
         return !Objects.isNull(comprasDTO) ?
                 !ComprasDTO.thereIsNullAttributes().test(comprasDTO) ?
                         this.iComprasRepository
@@ -44,31 +40,21 @@ public class SaveComprasUseCase implements SaveCompra {
                                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.EXPECTATION_FAILED.toString())))
                                 .map(compras -> comprasMapper.convertEntityToDTO().apply(compras))
                         : Mono.error(new Throwable(HttpStatus.NOT_ACCEPTABLE.toString()))
-                : Mono.error(new Throwable(HttpStatus.NOT_ACCEPTABLE.toString()));
-    }
-
+                : Mono.error(new Throwable(HttpStatus.NOT_ACCEPTABLE.toString()));    }
     private void validaciones(ComprasDTO comprasDTO) {
         var productosAComprar = comprasDTO.getProducts();
-
         var idsDeProductosAComprar = productosAComprar.stream().map(ProductosCopia::getName)
-                .collect(
-                        Collectors.toList());
-
+                .collect(                        Collectors.toList());
         var productosGuardados = Flux.merge(getProductosGuardados(idsDeProductosAComprar))
                 .collect(Collectors.toList());
-
-        productosGuardados.flatMap(productos -> {
-            validations.existencias(productos, productosAComprar);
+        productosGuardados.flatMap(productos -> {            validations.existencias(productos, productosAComprar);
             validations.stockMinimo(productos);
             validations.rangoDeCantidad(productos, productosAComprar);
-
             return Mono.just(productos);
         });
     }
-
     private List<Flux<Productos>> getProductosGuardados(List<String> idsDeProductosAComprar) {
         return idsDeProductosAComprar.stream().map(productRepository::findByName)
-                .collect(
-                        Collectors.toList());
+                .collect( Collectors.toList());
     }
 }
