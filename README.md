@@ -27,6 +27,7 @@ Correr en Mongo db con tu propia base de datos o mia . Se crea automaticamente c
 - Se utilizo Casos de uso 
 - Division en capas  
 - DTO - colecciones - mapper -repositorio - router -usecases
+- ![img.png](img.png)
 
 back-inventario
 Add collection description…
