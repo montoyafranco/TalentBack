@@ -1,6 +1,7 @@
 package ec.backend.reactive.talentzone.productos.dto;
 
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -10,6 +11,7 @@ import java.util.function.Predicate;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class ProductosDTO {
+    @MongoId
     private String name;
     private Integer inInventory;
     private Boolean enabled;

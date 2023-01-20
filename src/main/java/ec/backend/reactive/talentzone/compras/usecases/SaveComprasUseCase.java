@@ -40,7 +40,7 @@ public class SaveComprasUseCase implements SaveCompra {
                                 (productos -> {
                                     var productosAComprar = comprasDTO.getProducts();
 
-                                    GuardarEnHistorial(comprasDTO);
+                                    GuardarEnHistorial(comprasDTO).subscribe();
 
                                     var listaActualizada = actualizarInventario(productos, productosAComprar);
 

@@ -19,7 +19,9 @@ public class DeleteProductoByIdUseCase implements DeleteProducto {
     public Mono<String> applyUseCase(String name) {
         return productosByIdUseCase.apply(name)
                 .map(productosDTO -> {
-                    productosRepository.deleteById(productosDTO.getName());
+                    productosRepository.deleteById(productosDTO.getName()).subscribe();
+                    System.out.println(productosDTO + productosDTO.getName());
+
                     return productosDTO.getName();
                 });
     }
