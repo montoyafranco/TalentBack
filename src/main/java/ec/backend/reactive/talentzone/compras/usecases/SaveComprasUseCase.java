@@ -10,9 +10,11 @@ import ec.backend.reactive.talentzone.productos.collection.Productos;
 import ec.backend.reactive.talentzone.productos.dto.ProductosDTO;
 import ec.backend.reactive.talentzone.productos.mapper.ProductosMapper;
 import ec.backend.reactive.talentzone.productos.repository.IProductosRepository;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,26 +32,26 @@ public class SaveComprasUseCase implements SaveCompra {
     private final Validations validations;
 
 
-
     @Override
     public Flux<Productos> applyCompra(ComprasDTO comprasDTO) {
         return productRepository.saveAll(
                 validaciones(comprasDTO)
                         .flatMapMany
                                 (productos -> {
-            var productosAComprar = comprasDTO.getProducts();
+                                    var productosAComprar = comprasDTO.getProducts();
 
-            GuardarEnHistorial(comprasDTO);
+                                    GuardarEnHistorial(comprasDTO);
 
-            var listaActualizada = actualizarInventario(productos, productosAComprar);
+                                    var listaActualizada = actualizarInventario(productos, productosAComprar);
 
-            return Flux.fromIterable(listaActualizada);
-        }));
+                                    return Flux.fromIterable(listaActualizada);
+                                }));
 
 
     }
+
     public Mono<ComprasDTO> GuardarEnHistorial(ComprasDTO comprasDTO) {
-        return !Objects.isNull(comprasDTO)? //A static method in final class Objects that allows to check if productosDTO is null
+        return !Objects.isNull(comprasDTO) ? //A static method in final class Objects that allows to check if productosDTO is null
                 //This is a predicate, I create it on ProductosDTO class
                 this.iComprasRepository
                         .save(comprasMapper.convertDTOTOEntity().apply(comprasDTO))
