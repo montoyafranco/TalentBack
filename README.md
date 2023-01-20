@@ -28,3 +28,67 @@ Correr en Mongo db con tu propia base de datos o mia . Se crea automaticamente c
 - Division en capas  
 - DTO - colecciones - mapper -repositorio - router -usecases
 
+back-inventario
+Add collection description…
+POST
+Post
+http://localhost:8080/productos/save
+Add request description…
+Request Headers
+Content-Type
+application/json
+
+Body
+raw (json)
+json
+{
+"name" : "testin10",
+"inInventory": 200,
+"enabled" : "true",
+"min": 2,
+"max":20
+}
+GET
+GetByIDProducto-PATH
+http://localhost:8080/productos/testin10
+Add request description…
+DELETE
+DeteleByID
+http://localhost:8080/producto/delete/{}
+Add request description…
+GET
+GetAllProductos
+http://localhost:8080/productos/all
+Add request description…
+PUT
+UpdateProductosByID
+http://localhost:8080/productos/update/testin10
+Add request description…
+Body
+raw (json)
+json
+{     "max":200
+}
+Compras
+Add collection description…
+POST
+PostCompra
+http://localhost:8080/compras/save
+Add request description…
+Body
+raw (json)
+json
+{
+"date" : "2007-12-04",    
+"id": 60,
+"idType" : "1234546",
+"clientName":"cars",
+"products":[{
+"name": "prueba1",
+"quantity":4
+}]
+}
+GET
+GetHistorial
+http://localhost:8080/historial/all
+Add request description…
